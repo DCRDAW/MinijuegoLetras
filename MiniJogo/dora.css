@@ -1,0 +1,77 @@
+*{
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+}
+body
+{
+    background-color: orange;
+    color: white;
+}
+h1
+{
+    padding-top: 1%;
+    width: 100%;
+    border: 1px white;
+    background-color: orange;
+    color: black;
+}
+h2
+{
+    background-color: orange;
+    color: black;
+}
+div div
+{
+    
+    text-align: center;
+    width: 6%;
+    margin: 1% 1% 0 1%;
+    border: 4px groove purple;
+    background-color: white;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: black;
+}
+#ay
+{
+    width: 100%;
+    border: 1px solid white;
+    height: 650px;
+    background-color: black;
+    position: relative;
+    overflow: hidden;
+}
+.tonto
+{
+    position: absolute;
+    width: auto;
+}
+/*.tonto:nth-child(1)
+{ 
+    left: 15%;
+}
+.tonto:nth-child(2)
+{  
+    left: 45%;
+}
+.tonto:nth-child(3)
+{
+    left: 65%;
+}
+.tonto:nth-child(4)
+{  
+    left: 45%;
+}*/
+.tonto span
+{
+    color: orange;
+}
+#puntos
+{
+    margin-left: 70%;
+}
+#titulo
+{
+    float: left;
+}

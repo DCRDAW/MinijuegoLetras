@@ -1,0 +1,131 @@
+/**
+ * @author Diego Carrion
+ */
+'use strict'
+/**
+ * Clase principal del juego
+ */
+class Juego{
+    constructor(){
+        this.vista=new Vista(this)
+        this.modelo=new Modelo()
+        this.generadorPalabras=null
+        this.bajador=null
+        this.div=document.getElementById('ay')
+        window.onload= this.iniciar.bind(this)
+    }
+    iniciar(){
+        console.log('iniciado');
+        this.vista.divVista= this.div
+        this.generadorPalabras= window.setInterval(this.generarPalabra.bind(this), 2000)
+        this.bajador=window.setInterval(this.vista.moverpalabras.bind(this.vista),300)    
+        window.onkeypress = this.pulsar.bind(this)
+    }
+    generarPalabra(){
+        let nuevaPalabra=this.modelo.crearpalabra()
+        this.vista.dibujar(nuevaPalabra)
+    }
+    pulsar(evento){
+        let letraP=evento.key
+        let palabras= this.div.querySelectorAll('.tonto')
+        let puntos=document.getElementById('puntos')
+        for(let palabra of palabras){
+            let span= palabra.children.item(0)
+            let nodoTexto= palabra.childNodes[1]
+            let textoRestante = nodoTexto.nodeValue
+            
+            if(letraP== textoRestante.charAt(0)){
+                span.textContent+=letraP
+                //textoRestante=textoRestante.substring(1)
+                nodoTexto.nodeValue=textoRestante.substring(1)
+                if(nodoTexto.nodeValue.length==0 ){
+                    palabra.remove()
+                    this.modelo.puntuacion++
+                    puntos.textContent=`Puntuacion= ${this.modelo.puntuacion}`
+                    //console.log(this.modelo.puntuacion );
+                }
+            }else{
+                nodoTexto.nodeValue=span.textContent+textoRestante
+                span.textContent=null
+            }
+        }
+    }
+    final(){
+        let puntos=document.getElementById('puntos')
+        this.modelo.puntuacion--
+        puntos.textContent=`Puntuacion= ${this.modelo.puntuacion}`
+    } 
+}
+class Modelo{
+    constructor(){
+         this.lista =
+            ["que","de","no","a","la","el","es","y","en","lo","un","por","que","me","una","te","los","se","con","para","mi","esta","si","bien","pero","yo","eso","las","si","su","tu","aqui","del","al","como","le","mas","esto","ya","todo","esta","vamos","muy","hay","ahora","algo","estoy","tengo","nos","tu","nada","cuando","ha","este","se","estas","asi","puedo","como","quiero","solo","soy","tiene","gracias","o","el","bueno","fue","ser","hacer","son","todos","era","eres","vez","tienes","creo","ella","he","ese","voy","puede","sabes","hola","sus","porque","dios","quien","nunca","donde","quieres","casa","favor","esa","dos","tan","señor","tiempo","verdad","estaba","mejor","estan","va","hombre","usted","mucho","hace","entonces","siento","tenemos","puedes","ahi","ti","vida","ver","alguien","sr","hasta","sin","mi","solo","años","sobre","decir","uno","siempre","oh","ir","cosas","tambien","antes","has","ni","mis","dia","estar","estamos","noche","nadie","otra","quiere","parece","nosotros","poco","padre","trabajo","gente","mira","vas","sea","les","donde","mismo","hecho","ellos","dijo","pasa","dinero","hijo","tal","otro","hablar","seguro","claro","estas","lugar","mundo","amigo","espera","mierda","han","tus","sabe","despues","momento","desde","fuera","cosa","tipo","mañana","podemos","dije","gran","necesito","estado","podria","acuerdo","papa","tener","dice","mio","crees","buena","gusta","nuestro","nuevo","sera","haciendo","dias","nombre","buen","habia","ven","tres","menos","debe","tenia","mal","conmigo","madre","hoy","quien","sido","mama","tienen","luego","todas","alli","toda","hora","mujer","visto","haces","importa","contigo","ve","tarde","oye","parte","haber","hombres","problema","mas","saber","queria","aun","veces","nuestra","hacerlo","cada","hizo","veo","tanto","razon","ustedes","idea","esos","van","quiza","debo","alguna","cierto","ud","muerto","unos","estos","salir","policia","realmente","demasiado","familia","pueden","cabeza","hemos","amigos","chica","cariño","lado","alla","entre","minutos","digo","algun","serio","cuidado","paso","buenas","somos","amor","puerta","ves","vaya","ah","suerte","eh","rapido","cuenta","quizas","io","esas","pues","pasado","pense","todavia","hermano","debes","casi","forma","aqui","chico","ok","dicho","nueva","sabia","muchas","dentro","hice","contra","auto","camino","ayuda","primera","hacia","vi","miedo","adios","primero","deberia","poder","niños","seria","historia","hey","mientras","ciudad","dijiste","espero","cuanto","esposa","pronto","chicos","cualquier","viejo","debemos","deja","año","muerte","hablando","manos","da","loco","problemas","mano","guerra","semana","pasar","vale","cual","viene","volver","toma","caso","agua","hare","vete","entiendo","horas","personas","capitan","adelante","niño","listo","noches","buenos","iba","juntos","dame","unico","dejame","cerca","otros","sigue","grande","arriba","jefe","habla","supongo","manera","quieren","feliz","significa","sangre","fin","bajo","llama","venir","morir","importante","hiciste","ojos","escucha","entrar","ningun","corazon","diablos","necesitamos","atras","durante","dices","nuestros","persona","abajo","dr","hija","dejar","necesita","llegar","hago","señora","haya","suficiente","doctor","gustaria","tierra","cara","siquiera","genial","cree","supuesto","tomar","equipo","justo","juego","ninguna","matar","cinco","dicen","amo","cuando","pequeño","algunos","conozco","clase","maldito","unas","muchos","hubiera","segundo","aunque","pueda","dime","igual","comida","ay","cuerpo","encontrar","fuerte","vuelta","venga","creer","realidad","saben","puta","deberias","pregunta","fui","cuatro","sra","primer","trabajar","e","hagas","alto","maldita","comer","numero","dar","necesitas","john","oportunidad","punto","misma","ultima","afuera","mujeres","pensar","fueron","dificil","vivir","paso","malo","estabas","vivo","haga","queda","hijos","mayor","fiesta","hacen","medio","algunas","basta","ei","arma","vino","meses","cuarto","este","escuela","este","dolares","tio","posible","tuve","facil","preocupes","jack","luz","eran","carajo","final","lista","trata","armas","hermana","exactamente","chicas","podia","bastante","seguridad","pasando","esperando","aca","telefono","perro","fuego","murio","tampoco","sola","estuvo","verte","ire","tenido","culpa","veras","adonde","buscando","cuanto","padres","paz","demonios","estara","cual","perdon","asi","jugar","pensando","esperar","sabemos","recuerdo","par","joven","seguir","pueblo","tenga","caballeros","idiota","dio","minuto","bebe","unica","lejos","nuestras","plan","pienso","sentido","dormir","digas","palabra","correcto","control","vemos","entiendes","pais","seis","ultimo","esta","diga","podrias","pequeña","callate","trato","rey","sucede","sam","muchachos","jamas","cama","srta","ayudar","acerca","di","cambio","falta","hospital","lleva","presidente","mil","gusto","conoces","diciendo","os","ido","general","extraño","semanas","coche","peor","mucha","disculpe","dire","anoche","perder","vamonos","nave","cielo","habra","orden","segura","querida","niña","michael","increible","ademas","deben","libro","calle","cafe","piensas","hacemos","especial","queremos","ia","clark","irme","perfecto","buscar","odio","piensa","oficina","hablas","libre","agente","york","llamar","mala","detras","viste","dile","grandes","recuerdas","real","estaban","mia","frente","perdido","llamo","muertos","millones","asesino","sueño","quisiera","habria","hara","viaje","probablemente","peter","resto","estare","maldicion","lamento","muchacho","avion","ropa","fuerza","llamado","oido","frank","dado","encima","negro","usar","informacion","uds","preguntas","tuvo","secreto","vuelve","miren","quieras","haria","acaba","otras","incluso","sientes","deberiamos","haz","decirte","boca","dolor","baño","adentro","profesor","habitacion","daño","tuyo","seas","noticias","demas","querido","duro","poner","prueba","mire","tonto","campo","siendo","diez","ese","tranquilo","asunto","acabo","quedate","derecho","placer","recuerda","estuve","tratando","ejercito","futuro","llevar","compañia","venido","listos","haremos","sitio","verlo","puesto","atencion","sino","cambiar","error","blanco","raro","palabras","llego","sal","pase","mente","sistema","pelicula","anda","ello","negocio","novia","permiso","crei","suena","ocurre","oficial","espere","aire","george","mato","harry","regresar","vio","hazlo","trasero","grupo","entendido","señorita","musica","perra","conoce","empezar","siente","acabo","estupido","diferente","traje","modo","james","encontre","mensaje","llamada","navidad","eras","pena","largo","entra","piso","foto","dijeron","medico","accidente","fuiste","imposible","podriamos","linea","propia","barco","ganar","normal","segundos","vive","mitad","quiera","tras","decirle","lindo","funciona","programa","vine","abre","sean","pagar","fotos","centro","supone","basura","situacion","mejores","vienen","encanta","marido","personal","maestro","hambre","ataque","culo","dale","pie","conseguir","trabajando","gracioso","dejo","pudo","derecha","izquierda","proxima","pobre","respuesta","tipos","sentir","tenias","pude","darle","voz","amiga","gustan","vista","salvo","loca","hotel","hicieron","ten","temo","señal","pelo","llevo","ayer","das","nena","servicio","tren","tom","bonito","mes","tendra","tendras","edad","ellas","hermosa","ben","honor","simplemente","llamas","tengas","corre","baja","sol","sientate","dan","humano","divertido","sexo","vuelto","peligro","mesa","jimmy","siguiente","hablo","disculpa","decirme","joe","caja","negocios","mision","silencio","sale","llegado","estaria","regreso","media","estan","propio","charlie","oro","enseguida","linda","prometo","esposo","norte","hubo","juro","muerta","interesante","pensaba","busca","terminar","tendre","completamente","cita","siete","cumpleaños","abogado","alrededor","cerebro","porque","llave","santo","hermoso","necesario","edificio","irnos","aun","tendremos","vayas","doy","trae","salio","ley","ahi","verdadero","pelea","banco","terrible","calma","cena","dare","gobierno","comprar","creen","sargento","destino","bob","existe","hacia","novio","sala","traves","regalo","iglesia","decia","cualquiera","excelente","esperen","deseo","alma","diablo","deje","cuantos","espada","estabamos","carne","maravilloso","vidas","sucedio","oi","peligroso","direccion","libertad","jesus","ocurrio","vere","sueños","pudiera","detective","sorpresa","tuya","pies","club","terminado","infierno","creia","luna","salvar","carta","estes","cielos","teniente","encuentra","david","veamos","quise","escuchame","necesitan","ambos","decision","roma","enemigo","hicimos","ei","dulce","pruebas","querias","abuelo","totalmente","mirando","vayan","carrera","vuelo","ante","bienvenido","haras","encontramos","encontrado","contacto","posicion","saberlo","planeta","humanos","coronel","junto","diria","esa","base","oir","suelo","pelear","ayudarte","pistola","frio","comandante","partes","llega","veras","sur","iremos","rato","mar","espacio","asesinato","ventana","prisa","tienda","camara","puedas","segun","broma","reunion","despierta","sacar","ti","segunda","papel","locura","departamento","horrible","enfermo","pregunto","carcel","ordenes","intento","isla","salida","llamo","volvere","usa","gato","paul","hagan","dejes","duele","vengan","crimen","esperaba","causa","bar","sere","ocho","temprano","rio","relacion","drogas","luces","bromeando","ojala","hablamos","trabaja","irse","libros","radio","mary","ray","bill","vienes","quedan","excepto","brazo","tome","rojo","conocido","universidad","investigacion","batalla","reglas","cargo","hogar","ninguno","dieron","vuelva","sabias","respeto","estacion","corte","paciente","encuentro","energia","dejado","baile","fbi","abuela","caliente","vieja","viendo","veremos","rayos","simple","bailar","papa","triste","zona","seras","guardia","cancion","salud","escuchar","parar","mike","estaras","cenar","max","soldados","caballo","seran","estaremos","interesa","volar","principio","nivel","calmate","conocer","finalmente","alegro","debajo","podrian","bosque",
+            "bonita","bolsa","pone","taxi","ocupado","amable","ryan","acaso","detente","imbecil","san","equivocado","viva","puso","obra","consejo","publico","ayudame","animales","azul","apuesto","prision","mirar","inteligente","metros","fantastico","proximo","jugando","ojo","salga","vea","llaman","entrada","duda","cerveza","unidos","matado","princesa","perdi","entender","santa","quedar","miles","llamare","compañero","pensado","espalda","deje","bomba","alex","cartas","apenas","leer","hermanos","darme","papi","mantener","suyo","rico","verla","lee","bobby","sigues","toca","olvidalo","accion","hayas","dioses","mando","dejare","llegue","formas","uh","henry","cierra","damas","puente","memoria","regresa","muevanse","parecia","vestido","llaves","tv","camion","acabar","robot","llevo","monton","estuviste","maquina","puertas","podamos","muere","trago","mayoria","reina","lleno","ingles","don","soldado","estrella","escuche","valor","pido","delante","codigo","heroe","fe","capaz","verme","beber","velocidad","darte","llevas","partido","estuviera","tony","lex","dia","opinion","irte","cocina","abrir","perros","tambien","sepa","pareces","escribir","golpe","tenia","alta","estados","tocar","vuelvo","habian","ganas","hacerte","dejo","volvio","ejemplo","robert","contar","tenian","proposito","entiende","empieza","anillo","londres","tendria","pedir","estilo","ayudarme","pista","cambiado","escapar","eeuu","encontro","espiritu","viejos","molesta","nota","diferencia","tratar","precio","caballero","sirve","alegra","doble","agradable","embargo","tengan","tuvimos","sube","esten","mami","emergencia","cuello","boda","aprender","pete","te","informe","blanca","experiencia","debia","podido","mentira","director","mata","exacto","eddie","dejalo","defensa","tuviste","confiar","color","bond","hacerle","aquel","conoci","probar","principe","ira","soio","ai","despacio","tiro","vacaciones","perdio","fondo","chris","verde","parecen","mama","bienvenida","opcion","operacion","jim","hablado","traer","principal","demonio","zapatos","leo","anna","respecto","nuevos","especie","pidio","exito","cabron","mirame","piernas","unidad","hielo","llegamos","dejeme","ios","debi","vendra","matrimonio","habias","podra","piel","preocupa","quedarme","mio","tuviera","tiempos","richard","quienes","oiga","ultimos","oigan","fuimos","arte","necesitaba","quienes","comun","intentando","llevare","levantate","correr","brillante","calor","planes","dra","visita","presion","pared","esperanza","completo","subir","cansado","llame","recordar","trampa","monstruo","bajar","pierna","señores","tomo","pasara","mataste","grandioso","socio","herido","cayo","fuerzas","nick","cine","escena","tia","danny","dando","puntos","teniamos","dejaste","muevete","larga","solia","tema","preparado","depende","policias","solos","matarme","mark","pon","hubiese","bebe","tanta","oeste","paris","viento","jovenes","hacerme","asiento","carter","washington","estupendo","caminar","juicio","creerlo","carga","tranquila","banda","estaran","animal","escuchen","bush","encontraron","dejas","tarjeta","ibas","podras","nueve","seguramente","volvera","majestad","llena","caer","aeropuerto","vayamos","tommy","acabado","sigo","enorme","area","muevas","haberlo","dejen","ridiculo","reloj","hagamos","flores","mapa","culpable","cuentas","pareja","tomando","m","laboratorio","beso","empezo","pedi","nariz","cuestion","termino","vengo","the","perdona","acuerdas","verano","prefiero","peso","billy","oscuridad","diferentes","cliente","charles","cuantas","television","suya","prensa","johnny","vistazo","inmediatamente","solamente","gordo","quedarse","posibilidad","medicina","malditos","pantalones","mataron","ayude","podremos","locos","nombres","superman","parecer","america","definitivamente","cinta","desea","brazos","asuntos","riesgo","escuche","lugares","i","cuento","noticia","digame","decirlo","tonterias","sentimientos","objetivo","pasada","arreglar","casado","bote","roja","leyes","millon","arbol","hable","proyecto","nervioso","lana","salido","pedazo","malas","joder","humana","absolutamente","evitar","corriendo","bala","vosotros","despues","debido","confianza","especialmente","intenta","pequeños","paga","ganado","ama","limpio","comenzar","angeles","robots","lleve","ruido","preocupe","jason","belleza","salgan","come","vera","deberian","lider","preguntar","inocente","andy","lastima","red","enfermedad","desgraciado","haran","dientes","mate","central","ponte","felices","supe","haberte","marcha","poderes","hubieras","justicia","bella","de","proteger","cabello","pedido","oscuro","sarah","embarazada","costa","dama","alguno","orgulloso","vos","tomado","digamos","debio","gana","cura","lengua","araña","podre","voluntad","total","dedo","pago","agradezco","partir","lucha","leche","luke","diste","copa","quedarte","seguros","destruir","bienvenidos","llevan","jerry","ponga","lados","acceso","parker","intentar","trajo","desastre","deber","herida","debil","naturaleza","luchar","extraña","encontraste","vieron","llamame","imagen","pan","refieres","clientes","varios","show","auxilio","oyes","siguen","sentado","saliendo","responsable","olvidado","quedo","permite","aquella","puse","sonido","quiso","escrito","carro","preciosa","muestra","bastardo","restaurante","huevos","fantasma","mismos","profesional","amas","entero","peliculas","cerrado","dedos","sigan","dueño","cuchillo","turno","tormenta","caray","abierto","quede","verdadera","mato","doc","playa","km","victoria","primo","oiste","lisa","interior","hechos","piedra","jodido","militar","computadora","encantaria","siga","silla","movimiento","momentos","familiar","apartamento","disparar","tesoro","perfecta","refiero","motivo","dara","nuevas","mr","querer","matarlo","valiente","victima","tendran","estupida","envio","steve","encantado","diario","abran","senti","autobus","traido","casas","apurate","encuentras","descanso","sheriff","mulder","mueve","inglaterra","quieto","carl","matarte","calles","tamaño","colegio","usando","cabo","video","toques","pelota","yendo","directo","termine","vivos","sombrero","tome","estudio","grave","proteccion","secretos","perdiendo","pecho","sepas","enferma","cuesta","negros","estrellas","lago","clases","b","obviamente","inmediato","modos","iras","robo","matare","seria","laura","apoyo","cerrar","imagino","amenaza","toque","larry","saca","viernes","hayan","roto","lucy","piloto","marca","combate","hable","manejar","seccion","profundo","tantos","conocia","serie","ed","contrato","americano","paseo","aviones","balas","repente","cambia","tropas","llevara","uso","pudiste","detener","susan","sabia","llegue","negra","decidido","comienza","distancia","eramos","murieron","averiguar","actuar","quedo","pulso","aguanta","oficiales","llamaba","enemigos","saldra","preocupado","eleccion","sobrevivir","bordo","sujeto","pacientes","disculpen","epoca","entro","pesar","hablo","walter","vender","piensan","ex","gratis","desaparecio","empleo","llame","conocen","cerdo","puedan","comprendo","tomo","termina","alejate","busco","contento","date","tumba","matt","huellas","cuerpos","absoluto","pide","kent","dura","descansar","respuestas","propiedad","llamando","dormido","castillo","china","datos","torre","robar","americanos","malos","botella","aquellos","ultimamente","testigo","s","presento","periodico","kate","juez","historias","gustaba","creeme","necesitar","esquina","millas","llamadas","fuente","conocemos","techo","genio","alerta","ideas","tomas","olvidar","menor","droga","explicar","abierta","privado","miembros","joey","nacional","gusto","ross","discutir","evidencia","detalles","c","tardes","tomare","presente","scott","criminal","premio","vuelvas","sientese","viniste","recibir","mires","teniendo","huele","hables","guardias","enamorado","cuidar","pocos","perdone","natural","caballos","escucho","enfermera","angel","sospechoso","local","mentiras","camisa","confia","aceptar","venganza","perdimos","cuantos","parque","juegos","chloe","vives","varias","harias","menudo","dejenme","barrio","virus","talento","ministro","hiciera","robo","conocerte","viviendo","responsabilidad","respira","numeros","pertenece","desayuno","dave","campeon","controlar","maria","nieve","mexico","howard","dias","vergüenza","doctora","blancos","fumar","llevamos","europa","dudo","athena","pastel","quedas","cae","vimos","recibido","andando","agentes","fueras","asustado","perdoname","reino","clave","papeles","matando","jake","efecto","r","plata","olvide","iban","universo","politica","almuerzo","magia","lluvia","humor","autos","veia","tantas","respirar","cantar","trabajas","julie","disparo","conversacion","olor","asesinos","muchacha","modelo","jane","curso","canal","rock","llorar","borracho","regresen","vayanse","sentia","resultado","william","parado","olvides","mirada","inutil","california","acabas","ciencia","perdiste","sociedad","regrese","camioneta","coño","revista","parecio","montaña","maravillosa","dejarlo","maximo","echar","corriente","escuchando","disculpas","cadaver","seguimos","ron","espectaculo","frodo","mundial","francia","decirles","aspecto","presencia","famoso","corto","relajate","poderoso","recuerdos","llego","carretera","pase","oigo","esperamos","escuchado","cable","rosa","bola","oferta","helen","intentarlo","habido","continuar","rachel","ladron","humanidad","estomago","entera","conto","poniendo","mercado","granja","idiotas","hablemos","estudiante","siglo","roger","relaciones","ias","hablan","adam","nosotras","miembro","fortuna","libres","acciones","esperas","suficientemente","llevaron","ocurrido","andar","perfectamente","pasan","jardin","cola","resultados","frances","troya","tercera","martin","entrenamiento","doug","azucar","metido","ayudarlo","diles","coger","lunes","ey","new","intencion","volviendo","efectivo","chicago","dei","salgamos","preguntaba","olvida","helicoptero","fuertes","encantador","original","cadena","tarea","dispara","corta","compañeros","cirugia","quitate","querian","precioso","lord","sara","comenzo","truco","inspector","enojado","felicidades","desaparecido","acto","pollo","elizabeth","chocolate",
+            "adonde","resulta","merece","gas","examen","vean","tonta","importantes","apuesta","jean","directamente",
+            "recuperar","pongo","llegaron","cobarde","cantidad","sucio","habia","emperador","mono","encontraremos",
+            "disparen","gloria","contrario","socorro","sir","escaleras","seth","pasos","nuevamente","derechos",
+            "obtener","guste","busqueda","helado","futbol","sexual","polvo","aseguro","rostro","robado","policia",
+            "empresa","escuchas","pones","largate","interes","disculpeme","dejaron","tengamos","firma","llevaba",
+            "llegas","cristo","tercer","senador","continua","gracia","cien","texas","jones","des","tratado",
+            "razones","caminando","urgencias","u","raymond","esperan","muñeca","firme","duerme","ambulancia",
+            "limpia","habeis","flota","leyenda","encuentre","fue","arturo","romper","muriendo","encontrarlo",
+            "rescate","quedado","enfrente","comienzo","arboles","x","queso","favorito","haberme","frontera",
+            "creemos","colega","jueves","alemanes","shrek","sabado","limpiar","puto","poquito","cientos","muero",
+            "irak","inteligencia","funcionar","felicitaciones","escapo","criatura","milagro","deprisa","especiales",
+            "campamento","responde","escuchaste","debiste","adios","viven","recoger","preguntarte","compras","cansada",
+            "will","elegir","cancer","servir","pata","huir","util","grados","atacar","sonny","recien","querria","guapo",
+            "alcance","smith","dejame","quedamos","llegara","seremos","desierto","t","licencia","fiona","trato","proceso",
+            "llevado","durmiendo","tension","martes","kilometros","cartera","trafico","guarda","impresionante","victimas",
+            "ricos","primeros","dejamos","tomen","iguales","domingo","crear","quedara","perdida","extra","fuese","confio",
+            "sabido","analisis","llegaste","fria","violencia","mate","lobo","discurso","actor","sexy","orgullo","odia"]
+            this.puntuacion=0
+        //this.lista = ["the","of","and","a","to","in","is","you","that","it","he","was","for","on","are","as","with","his","they","I","at","be","this","have","from","or","one","had","by","word","but","not","what","all","were","we","when","your","can","said","there","use","an","each","which","she","do","how","their","if","will","up","other","about","out","many","then","them","these","so","some","her","would","make","like","him","into","time","has","look","two","more","write","go","see","number","no","way","could","people","my","than","first","water","been","call","who","oil","its","now","find","long","down","day","did","get","come","made","may","part"];
+    }
+    crearpalabra(){
+        let palabra=this.lista[Math.floor(Math.random() * 100)]
+        return palabra
+    }
+}
+/**
+ * Clase que dibuja el juego
+ */
+class Vista{
+    constructor(controlador){
+        this.divVista=null;
+        this.controlador=controlador
+    }
+    /**
+     * dibuja el area de juego 
+     * @param {HTMLDivElement} divPadre div en el que se dibuja el ejercicio 
+     */
+    dibujar(palabra){
+        let num= Math.floor(Math.random() * 90)
+        let div=document.createElement('div')
+        let span=document.createElement('span')
+        div.appendChild(span)
+        let texto = document.createTextNode(palabra)
+        div.appendChild(texto)
+        div.classList.add('tonto')
+        this.divVista.appendChild(div)
+        div.style.top = '0px'
+        div.style.left=`${num}%`
+    }
+    moverpalabras(){
+        let palabras= this.divVista.querySelectorAll('.tonto')
+        /*console.log(palabras);*/
+        for(let palabra of palabras){
+            let top= parseInt(palabra.style.top)
+            top += 20
+            
+            palabra.style.top=`${top}px`
+            if(parseInt(palabra.style.top)>600){
+                palabra.remove();
+                this.controlador.final()
+            }
+        }
+        
+
+    }
+}
+
+var app= new Juego()
